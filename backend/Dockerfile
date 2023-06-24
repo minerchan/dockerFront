@@ -1,5 +1,5 @@
 # Base image
-FROM php:7.4-apache
+FROM php:8.1-apache
 
 # Enable Apache modules
 RUN a2enmod rewrite
@@ -20,14 +20,14 @@ RUN apt-get install -y \
 WORKDIR /var/www/html
 
 # Copy composer files
-COPY backend/composer.json backend/composer.lock ./
+COPY ./composer.json ./composer.lock ./
 
 # Install composer dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-scripts --no-autoloader
 
 # Copy application files
-COPY backend ./
+COPY . ./
 
 # Generate optimized autoloader
 RUN composer dump-autoload --optimize
